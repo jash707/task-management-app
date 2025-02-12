@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
-import ListIcon from "@mui/icons-material/List"; // List icon
-import ViewKanbanIcon from "@mui/icons-material/ViewKanban"; // Board icon
+import ListIcon from "@mui/icons-material/List";
+import ViewKanbanIcon from "@mui/icons-material/ViewKanban";
 
 const ViewToggle = () => {
   return (
@@ -15,7 +15,7 @@ const ViewToggle = () => {
       <Button
         variant="text"
         startIcon={<ListIcon />}
-        style={{ fontSize: "15px", fontWeight: "bold", textTransform: "none" }}
+        style={{ fontWeight: "normal", textTransform: "none", color: "gray" }}
       >
         List
       </Button>
