@@ -14,7 +14,7 @@ const signInWithGoogle = async () => {
   }
 };
 
-const logout = async () => {
+export const logout = async () => {
   await signOut(auth);
   console.log("User signed out");
 };
@@ -24,11 +24,11 @@ const Auth = () => {
     <Box
       sx={{
         display: "flex",
-        height: "100vh", // Full height of viewport
-        alignItems: "center", // Center vertically
-        justifyContent: "flex-start", // Align to the left
-        paddingLeft: "10%", // Add space from the left
-        backgroundColor: "#fdf8f6", // Light background similar to your design
+        height: "100vh",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        paddingLeft: "10%",
+        backgroundColor: "#FAF9F6", // Light background similar to design
       }}
     >
       <Box sx={{ textAlign: "left", maxWidth: 400 }}>
