@@ -1,15 +1,10 @@
-import {
-  FormControl,
-  Select,
-  MenuItem,
-  TextField,
-  Button,
-} from "@mui/material";
+import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
 import { Task, TaskSection } from "./TaskSection";
 import { useState } from "react";
 import { TaskHeaders } from "./TaskHeaders";
+import AddTaskDialog from "./NewTaskDialog";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([
@@ -61,16 +56,16 @@ const Dashboard = () => {
           }}
         >
           <span>Filter by:</span>
-          <FormControl size="small">
-            <Select defaultValue="Work">
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <Select defaultValue="Work" displayEmpty>
               <MenuItem value="All">All</MenuItem>
               <MenuItem value="Work">Work</MenuItem>
               <MenuItem value="Personal">Personal</MenuItem>
             </Select>
           </FormControl>
 
-          <FormControl size="small">
-            <Select defaultValue="Today">
+          <FormControl size="small" sx={{ minWidth: 130 }}>
+            <Select defaultValue="Today" displayEmpty>
               <MenuItem value="Any">Any</MenuItem>
               <MenuItem value="Today">Today</MenuItem>
               <MenuItem value="This Week">This Week</MenuItem>
@@ -104,12 +99,7 @@ const Dashboard = () => {
               }}
             />
           </div>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: "#6a1b9a", color: "white" }}
-          >
-            ADD TASK
-          </Button>
+          <AddTaskDialog />
         </div>
       </div>
       <div style={{ padding: "20px" }}>

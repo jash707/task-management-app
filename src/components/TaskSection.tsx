@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import AddTaskDialog from "./NewTaskDialog";
 
 export interface Task {
   title: string;
@@ -31,7 +32,6 @@ export const TaskSection: React.FC<TaskSectionProps> = ({
   onAddTask,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
-  const [showAddTaskForm, setShowAddTaskForm] = useState(false);
   const [newTask, setNewTask] = useState<Task>({
     title: "",
     dueDate: "",
@@ -39,16 +39,16 @@ export const TaskSection: React.FC<TaskSectionProps> = ({
     category: "Work",
   });
 
-  const handleAddTask = () => {
-    onAddTask(newTask);
-    setNewTask({
-      title: "",
-      dueDate: "",
-      status: title.toUpperCase(),
-      category: "Work",
-    });
-    setShowAddTaskForm(false);
-  };
+  // const handleAddTask = () => {
+  //   onAddTask(newTask);
+  //   setNewTask({
+  //     title: "",
+  //     dueDate: "",
+  //     status: title.toUpperCase(),
+  //     category: "Work",
+  //   });
+  //   setShowAddTaskForm(false);
+  // };
 
   return (
     <div
@@ -82,61 +82,16 @@ export const TaskSection: React.FC<TaskSectionProps> = ({
       {isExpanded && (
         <div style={{ marginTop: "10px" }}>
           {title.toUpperCase() === "TODO" && (
-            <>
-              <Button
-                variant="text"
-                onClick={() => setShowAddTaskForm(true)}
-                style={{ color: "#6a1b9a" }}
-              >
-                + Add Task
-              </Button>
-
-              {showAddTaskForm && (
-                <div
-                  style={{ display: "flex", gap: "10px", marginTop: "10px" }}
-                >
-                  <TextField
-                    label="Task Title"
-                    value={newTask.title}
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, title: e.target.value })
-                    }
-                  />
-                  <TextField
-                    label="Due Date"
-                    type="date"
-                    value={newTask.dueDate}
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, dueDate: e.target.value })
-                    }
-                    InputLabelProps={{ shrink: true }}
-                  />
-                  <Select
-                    value={newTask.category}
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, category: e.target.value })
-                    }
-                  >
-                    <MenuItem value="Work">Work</MenuItem>
-                    <MenuItem value="Personal">Personal</MenuItem>
-                  </Select>
-                  <Button
-                    onClick={handleAddTask}
-                    variant="contained"
-                    color="primary"
-                  >
-                    Add
-                  </Button>
-                  <Button
-                    onClick={() => setShowAddTaskForm(false)}
-                    variant="outlined"
-                    color="secondary"
-                  >
-                    Cancel
-                  </Button>
-                </div>
-              )}
-            </>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                padding: "10px",
+                backgroundColor: "#f0f0f0",
+              }}
+            >
+              <AddTaskDialog />
+            </div>
           )}
 
           {tasks.length === 0 ? (
