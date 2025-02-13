@@ -68,7 +68,7 @@ export const TaskSection: React.FC<TaskSectionProps> = ({
         }}
         onClick={() => setIsExpanded(!isExpanded)}
       >
-        <Typography variant="h6" style={{ fontWeight: "bold" }}>
+        <Typography variant="h6" style={{ fontWeight: "normal" }}>
           {title} ({tasks.length})
         </Typography>
         <ExpandMoreIcon
@@ -146,47 +146,43 @@ export const TaskSection: React.FC<TaskSectionProps> = ({
               <div
                 key={index}
                 style={{
-                  display: "flex",
+                  display: "grid",
+                  gridTemplateColumns: "1.1fr 1fr 1fr 1fr auto",
                   alignItems: "center",
-                  justifyContent: "space-between",
                   padding: "10px",
-                  backgroundColor: "#fdfdfd",
                   borderBottom: "1px solid #ddd",
+                  backgroundColor: "#fdfdfd",
                 }}
               >
-                {/* Task title and checkbox */}
-                <div style={{ display: "flex", alignItems: "center", flex: 2 }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <input type="checkbox" style={{ marginRight: "10px" }} />
                   <Typography>{task.title}</Typography>
                 </div>
 
-                {/* Due Date */}
-                <Typography style={{ flex: 1, textAlign: "center" }}>
+                <Typography style={{ textAlign: "center" }}>
                   {task.dueDate}
                 </Typography>
 
                 <Typography
                   style={{
-                    flex: 1,
                     textAlign: "center",
                     padding: "5px 10px",
                     borderRadius: "8px",
-                    color: "#fff",
-                    backgroundColor: "#b2b2b2",
+                    backgroundColor: "#f0f0f0",
                   }}
                 >
                   {task.status}
                 </Typography>
 
-                {/* Category */}
-                <Typography style={{ flex: 1, textAlign: "center" }}>
+                <Typography style={{ textAlign: "center" }}>
                   {task.category}
                 </Typography>
 
-                {/* More options icon */}
-                <IconButton style={{ flex: 0.5 }}>
-                  <MoreVert />
-                </IconButton>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <IconButton>
+                    <MoreVert />
+                  </IconButton>
+                </div>
               </div>
             ))
           )}

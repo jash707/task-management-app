@@ -9,6 +9,7 @@ import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
 import { Task, TaskSection } from "./TaskSection";
 import { useState } from "react";
+import { TaskHeaders } from "./TaskHeaders";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([
@@ -112,6 +113,7 @@ const Dashboard = () => {
         </div>
       </div>
       <div style={{ padding: "20px" }}>
+        <TaskHeaders />
         <TaskSection
           title="Todo"
           color="#f8bbd0"
