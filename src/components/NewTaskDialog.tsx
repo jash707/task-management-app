@@ -76,6 +76,7 @@ function AddTaskDialog() {
             label="Select"
             defaultValue="work"
             helperText="Please select task category"
+            variant="filled"
           >
             {taskCategories.map((option) => (
               <MenuItem key={option} value={option}>

@@ -1,10 +1,12 @@
 import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
-import { Task, TaskSection } from "./TaskSection";
+import TaskList from "./TaskList";
 import { useState } from "react";
-import { TaskHeaders } from "./TaskHeaders";
 import AddTaskDialog from "./NewTaskDialog";
+import TaskBoard from "./TaskBoard";
+import { Task } from "@/Utils/tasks.types";
+import { TaskListHeaders } from "./TaskListHeaders";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([
@@ -102,26 +104,31 @@ const Dashboard = () => {
           <AddTaskDialog />
         </div>
       </div>
-      <div style={{ padding: "20px" }}>
-        <TaskHeaders />
-        <TaskSection
+      <div
+        style={{
+          padding: "20px",
+        }}
+      >
+        <TaskListHeaders />
+        <TaskList
           title="Todo"
           color="#f8bbd0"
           tasks={tasks.filter((task) => task.status === "TO-DO")}
           onAddTask={handleAddTask}
         />
-        <TaskSection
+        <TaskList
           title="In-Progress"
           color="#b3e5fc"
           tasks={tasks.filter((task) => task.status === "IN-PROGRESS")}
           onAddTask={handleAddTask}
         />
-        <TaskSection
+        <TaskList
           title="Completed"
           color="#c8e6c9"
           tasks={tasks.filter((task) => task.status === "COMPLETED")}
           onAddTask={handleAddTask}
         />
+        {/* <TaskBoard /> */}
       </div>
     </div>
   );

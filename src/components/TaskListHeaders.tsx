@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from "@mui/material";
 
-export const TaskHeaders: React.FC = () => {
+export const TaskListHeaders: React.FC = () => {
   return (
     <div
       style={{
