@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Typography, IconButton } from "@mui/material";
-import { MoreVert } from "@mui/icons-material";
+import { Typography, IconButton, Menu, MenuItem } from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddTaskDialog from "./NewTaskDialog";
 import { TaskSectionProps } from "@/Utils/tasks.types";
@@ -12,6 +12,26 @@ const TaskList: React.FC<TaskSectionProps> = ({
   // onAddTask,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget as HTMLButtonElement);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    // onEdit();
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    // onDelete();
+    handleMenuClose();
+  };
   // const [newTask, setNewTask] = useState<Task>({
   //   title: "",
   //   dueDate: "",
@@ -76,7 +96,16 @@ const TaskList: React.FC<TaskSectionProps> = ({
             )}
 
             {tasks.length === 0 ? (
-              <Typography>No Tasks in {title}</Typography>
+              <Typography
+                sx={{
+                  alignItems: "center",
+                  padding: "10px",
+                  borderBottom: "1px solid #ddd",
+                  backgroundColor: "#fdfdfd",
+                }}
+              >
+                No Tasks in {title}
+              </Typography>
             ) : (
               tasks.map((task, index) => (
                 <div
@@ -115,9 +144,22 @@ const TaskList: React.FC<TaskSectionProps> = ({
                   </Typography>
 
                   <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <IconButton>
-                      <MoreVert />
-                    </IconButton>
+                    <>
+                      <IconButton
+                        aria-label="settings"
+                        onClick={handleMenuOpen}
+                      >
+                        <MoreVertIcon />
+                      </IconButton>
+                      <Menu
+                        anchorEl={anchorEl}
+                        open={open}
+                        onClose={handleMenuClose}
+                      >
+                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                      </Menu>
+                    </>
                   </div>
                 </div>
               ))

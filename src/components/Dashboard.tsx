@@ -1,15 +1,21 @@
-import { FormControl, Select, MenuItem, TextField } from "@mui/material";
+import { useState } from "react";
 import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
 import TaskList from "./TaskList";
-import { useState } from "react";
-import AddTaskDialog from "./NewTaskDialog";
 import TaskBoard from "./TaskBoard";
 import { Task } from "@/Utils/tasks.types";
 import { TaskListHeaders } from "./TaskListHeaders";
+import { FormControl, Select, MenuItem, TextField } from "@mui/material";
+import AddTaskDialog from "./NewTaskDialog";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([
+    {
+      title: "Interview with Design Team",
+      dueDate: "2024-12-31",
+      status: "TO-DO",
+      category: "Work",
+    },
     {
       title: "Interview with Design Team",
       dueDate: "2024-12-31",
@@ -30,9 +36,12 @@ const Dashboard = () => {
     },
   ]);
 
+  const [selectedView, setSelectedView] = useState("list");
+
   const handleAddTask = (newTask: Task) => {
     setTasks([...tasks, newTask]);
   };
+
   return (
     <div
       style={{
@@ -41,7 +50,10 @@ const Dashboard = () => {
       }}
     >
       <Header />
-      <ViewToggle />
+      <ViewToggle
+        selectedView={selectedView}
+        onToggleView={(view) => setSelectedView(view)}
+      />
       <div
         style={{
           display: "flex",
@@ -104,31 +116,54 @@ const Dashboard = () => {
           <AddTaskDialog />
         </div>
       </div>
-      <div
-        style={{
-          padding: "20px",
-        }}
-      >
-        <TaskListHeaders />
-        <TaskList
-          title="Todo"
-          color="#f8bbd0"
-          tasks={tasks.filter((task) => task.status === "TO-DO")}
-          onAddTask={handleAddTask}
-        />
-        <TaskList
-          title="In-Progress"
-          color="#b3e5fc"
-          tasks={tasks.filter((task) => task.status === "IN-PROGRESS")}
-          onAddTask={handleAddTask}
-        />
-        <TaskList
-          title="Completed"
-          color="#c8e6c9"
-          tasks={tasks.filter((task) => task.status === "COMPLETED")}
-          onAddTask={handleAddTask}
-        />
-        {/* <TaskBoard /> */}
+
+      <div style={{ padding: "20px" }}>
+        {selectedView === "list" ? (
+          <>
+            <TaskListHeaders />
+            <TaskList
+              title="Todo"
+              color="#f8bbd0"
+              tasks={tasks.filter((task) => task.status === "TO-DO")}
+              onAddTask={handleAddTask}
+            />
+            <TaskList
+              title="In-Progress"
+              color="#b3e5fc"
+              tasks={tasks.filter((task) => task.status === "IN-PROGRESS")}
+              onAddTask={handleAddTask}
+            />
+            <TaskList
+              title="Completed"
+              color="#c8e6c9"
+              tasks={tasks.filter((task) => task.status === "COMPLETED")}
+              onAddTask={handleAddTask}
+            />
+          </>
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <TaskBoard
+              title="Todo"
+              color="#f8bbd0"
+              tasks={tasks.filter((task) => task.status === "TO-DO")}
+            />
+            <TaskBoard
+              title="In-Progress"
+              color="#b3e5fc"
+              tasks={tasks.filter((task) => task.status === "IN-PROGRESS")}
+            />
+            <TaskBoard
+              title="Completed"
+              color="#c8e6c9"
+              tasks={tasks.filter((task) => task.status === "COMPLETED")}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

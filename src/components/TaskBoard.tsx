@@ -1,14 +1,18 @@
-import { CardContent } from "@mui/material";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import Typography from "@mui/material/Typography";
+import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import TaskBoardCards from "./TaskBoardCards";
+import { Task } from "@/Utils/tasks.types";
 
-export default function TaskBoard() {
+interface TaskBoardProps {
+  title: string;
+  color: string;
+  tasks: Task[];
+}
+
+export default function TaskBoard({ title, color, tasks }: TaskBoardProps) {
   return (
     <Card
       sx={{
-        maxWidth: 345,
+        minWidth: 340,
         height: "72vh",
         position: "relative",
         backgroundColor: "#f1f1f1",
@@ -19,7 +23,7 @@ export default function TaskBoard() {
           <Typography
             variant="body1"
             sx={{
-              backgroundColor: "#f8bbd0",
+              backgroundColor: color,
               padding: "4px 8px",
               borderRadius: "4px",
               display: "inline-block",
@@ -28,32 +32,37 @@ export default function TaskBoard() {
               left: "15px",
             }}
           >
-            TO-DO
+            {title}
           </Typography>
         }
         sx={{ marginBottom: "20px" }}
       />
       <CardContent
-        sx={{ display: "flex", flexDirection: "column", gap: "15px" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
+        }}
       >
-        <TaskBoardCards
-          title="Interview with Design Team"
-          category="Work"
-          dueDate="Today"
-          status={""}
-        />
-        <TaskBoardCards
-          title="Interview with Design Team"
-          category="Work"
-          dueDate="Today"
-          status={""}
-        />
-        <TaskBoardCards
-          title="Interview with Design Team"
-          category="Work"
-          dueDate="Today"
-          status={""}
-        />
+        {tasks.length === 0 ? (
+          <Typography
+            sx={{
+              padding: "50px",
+            }}
+          >
+            No Tasks in {title}
+          </Typography>
+        ) : (
+          tasks.map((task, index) => (
+            <TaskBoardCards
+              key={index}
+              title={task.title}
+              category={task.category}
+              dueDate={task.dueDate}
+              status={task.status}
+            />
+          ))
+        )}
       </CardContent>
     </Card>
   );

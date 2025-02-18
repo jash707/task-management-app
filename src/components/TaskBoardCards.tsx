@@ -4,11 +4,34 @@ import {
   Typography,
   IconButton,
   CardContent,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Task } from "@/Utils/tasks.types";
+import { useState } from "react";
 
 const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget as HTMLButtonElement);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleEdit = () => {
+    // onEdit();
+    handleMenuClose();
+  };
+
+  const handleDelete = () => {
+    // onDelete();
+    handleMenuClose();
+  };
   return (
     <Card
       sx={{
@@ -16,6 +39,7 @@ const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
         height: "15vh",
         position: "relative",
         borderRadius: "8px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
       }}
     >
       <CardHeader
@@ -40,9 +64,15 @@ const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
           </Typography>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-label="settings" onClick={handleMenuOpen}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+              <MenuItem onClick={handleEdit}>Edit</MenuItem>
+              <MenuItem onClick={handleDelete}>Delete</MenuItem>
+            </Menu>
+          </>
         }
       />
       <CardContent
@@ -52,9 +82,6 @@ const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
           alignItems: "center",
           padding: "2px 15px",
           position: "relative",
-          bottom: "0",
-          left: "0",
-          right: "0",
         }}
       >
         <Typography variant="caption" sx={{ color: "text.secondary" }}>
@@ -67,4 +94,5 @@ const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
     </Card>
   );
 };
+
 export default TaskBoardCards;
