@@ -7,7 +7,7 @@ import { Task } from "@/Utils/tasks.types";
 import { TaskListHeaders } from "./TaskListHeaders";
 import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import AddTaskDialog from "./NewTaskDialog";
-import { retrieveData, storeData } from "../services/firebaseUtils";
+import { listenForTasks, storeData } from "../services/firebaseUtils";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -15,15 +15,20 @@ const Dashboard = () => {
   const [selectedView, setSelectedView] = useState("list");
 
   const handleAddTask = (newTask: Task) => {
-    storeData("tasks/task2", newTask);
+    storeData(`tasks/${newTask.id}`, newTask);
   };
 
   useEffect(() => {
-    retrieveData("tasks/task2").then((data) => {
+    const unsubscribe = listenForTasks((data) => {
       if (data) {
-        setTasks([data]);
+        const tasksArray = Object.values(data);
+        setTasks(tasksArray as Task[]);
+      } else {
+        setTasks([]);
       }
     });
+
+    return unsubscribe;
   }, []);
 
   return (

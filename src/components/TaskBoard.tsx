@@ -60,6 +60,7 @@ export default function TaskBoard({ title, color, tasks }: TaskBoardProps) {
               category={task.category}
               dueDate={task.dueDate}
               status={task.status}
+              id={task.id}
             />
           ))
         )}

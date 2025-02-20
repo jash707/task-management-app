@@ -32,23 +32,6 @@ const TaskList: React.FC<TaskSectionProps> = ({
     // onDelete();
     handleMenuClose();
   };
-  // const [newTask, setNewTask] = useState<Task>({
-  //   title: "",
-  //   dueDate: "",
-  //   status: title.toUpperCase(),
-  //   category: "Work",
-  // });
-
-  // const handleAddTask = () => {
-  //   onAddTask(newTask);
-  //   setNewTask({
-  //     title: "",
-  //     dueDate: "",
-  //     status: title.toUpperCase(),
-  //     category: "Work",
-  //   });
-  //   setShowAddTaskForm(false);
-  // };
 
   return (
     <>

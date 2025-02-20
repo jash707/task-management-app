@@ -1,4 +1,4 @@
-import { ref, set, get } from "firebase/database";
+import { ref, set, get, onValue, off } from "firebase/database";
 import { database } from "./firebaseConfig";
 
 // Store data function
@@ -22,4 +22,16 @@ export const retrieveData = (path: string | undefined) => {
       throw new Error("No data available");
     }
   });
+};
+
+export const listenForTasks = (callback: (data: any) => void) => {
+  const dbRef = ref(database, "tasks");
+  onValue(dbRef, (snapshot) => {
+    if (snapshot.exists()) {
+      callback(snapshot.val());
+    } else {
+      callback(null);
+    }
+  });
+  return () => off(dbRef);
 };

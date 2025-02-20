@@ -25,9 +25,11 @@ const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ onAddTask }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const formJson = Object.fromEntries(formData.entries());
-    console.log("Form Data:", formJson);
-    onAddTask(formJson as Task);
+    const newTask = {
+      ...Object.fromEntries(formData.entries()),
+      id: Math.random().toString(36).substr(2, 9),
+    } as Task;
+    onAddTask(newTask as Task);
     handleClose();
   };
 
