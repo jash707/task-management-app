@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
 import TaskList from "./TaskList";
@@ -7,40 +7,24 @@ import { Task } from "@/Utils/tasks.types";
 import { TaskListHeaders } from "./TaskListHeaders";
 import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import AddTaskDialog from "./NewTaskDialog";
+import { retrieveData, storeData } from "../services/firebaseUtils";
 
 const Dashboard = () => {
-  const [tasks, setTasks] = useState<Task[]>([
-    {
-      title: "Interview with Design Team",
-      dueDate: "2024-12-31",
-      status: "TO-DO",
-      category: "Work",
-    },
-    {
-      title: "Interview with Design Team",
-      dueDate: "2024-12-31",
-      status: "TO-DO",
-      category: "Work",
-    },
-    {
-      title: "Team Meeting",
-      dueDate: "2024-12-30",
-      status: "IN-PROGRESS",
-      category: "Personal",
-    },
-    {
-      title: "Design a Dashboard",
-      dueDate: "2024-12-31",
-      status: "COMPLETED",
-      category: "Work",
-    },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
   const [selectedView, setSelectedView] = useState("list");
 
   const handleAddTask = (newTask: Task) => {
-    setTasks([...tasks, newTask]);
+    storeData("tasks/task2", newTask);
   };
+
+  useEffect(() => {
+    retrieveData("tasks/task2").then((data) => {
+      if (data) {
+        setTasks([data]);
+      }
+    });
+  }, []);
 
   return (
     <div
@@ -113,7 +97,7 @@ const Dashboard = () => {
               }}
             />
           </div>
-          <AddTaskDialog />
+          <AddTaskDialog onAddTask={handleAddTask} />
         </div>
       </div>
 

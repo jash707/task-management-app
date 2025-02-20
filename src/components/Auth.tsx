@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import GoogleIcon from "@mui/icons-material/Google";
-import { auth } from "../firebase";
+import { auth } from "../services/firebaseConfig";
 import { Box, Button, Typography } from "@mui/material";
 
 const provider = new GoogleAuthProvider();

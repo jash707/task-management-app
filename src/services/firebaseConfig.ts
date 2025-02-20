@@ -1,15 +1,11 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase } from "firebase/database";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDOe7OjlvFRrXqxCLwskvLeAay9EjGijig",
   authDomain: "task-management-app-aa5c0.firebaseapp.com",
+  databaseURL: "https://task-management-app-aa5c0-default-rtdb.firebaseio.com/",
   projectId: "task-management-app-aa5c0",
   storageBucket: "task-management-app-aa5c0.firebasestorage.app",
   messagingSenderId: "628266755632",
@@ -19,5 +15,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+export { database, auth };

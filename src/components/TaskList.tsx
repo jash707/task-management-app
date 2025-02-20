@@ -9,7 +9,7 @@ const TaskList: React.FC<TaskSectionProps> = ({
   title,
   color,
   tasks,
-  // onAddTask,
+  onAddTask,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
@@ -91,7 +91,7 @@ const TaskList: React.FC<TaskSectionProps> = ({
                   backgroundColor: "#f0f0f0",
                 }}
               >
-                <AddTaskDialog />
+                <AddTaskDialog onAddTask={onAddTask} />
               </div>
             )}
 

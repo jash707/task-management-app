@@ -6,8 +6,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MenuItem } from "@mui/material";
+import { Task } from "@/Utils/tasks.types";
+interface AddTaskDialogProps {
+  onAddTask: (newTask: Task) => void;
+}
 
-function AddTaskDialog() {
+const AddTaskDialog: React.FC<AddTaskDialogProps> = ({ onAddTask }) => {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -18,7 +22,17 @@ function AddTaskDialog() {
     setOpen(false);
   };
 
-  const taskCategories = ["work", "personal", "others"];
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const formJson = Object.fromEntries(formData.entries());
+    console.log("Form Data:", formJson);
+    onAddTask(formJson as Task);
+    handleClose();
+  };
+
+  const taskCategories = ["WORK", "PERSONAL", "OTHERS"];
+  const taskStatus = ["TO-DO", "IN-PROGRESS", "COMPLETED"];
 
   return (
     <React.Fragment>
@@ -28,19 +42,10 @@ function AddTaskDialog() {
       <Dialog
         open={open}
         onClose={handleClose}
-        //   slotProps={{
-        //     paper: {
-        //       component: "form",
-        //       onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-        //         event.preventDefault();
-        //         const formData = new FormData(event.currentTarget);
-        //         const formJson = Object.fromEntries((formData as any).entries());
-        //         const email = formJson.email;
-        //         console.log(email);
-        //         handleClose();
-        //       },
-        //     },
-        //   }}
+        PaperProps={{
+          component: "form",
+          onSubmit: handleSubmit,
+        }}
       >
         <DialogTitle>New Task</DialogTitle>
         <DialogContent>
@@ -48,8 +53,8 @@ function AddTaskDialog() {
             autoFocus
             required
             margin="dense"
-            id="name"
-            name="task name"
+            id="task-name"
+            name="title"
             label="Task Name"
             type="text"
             fullWidth
@@ -59,8 +64,8 @@ function AddTaskDialog() {
             autoFocus
             required
             margin="dense"
-            id="date"
-            name="date"
+            id="due-date"
+            name="dueDate"
             label="Due Date"
             type="date"
             fullWidth
@@ -70,15 +75,33 @@ function AddTaskDialog() {
             }}
           />
           <TextField
-            margin="dense"
-            id="outlined-select-currency"
+            margin="normal"
+            id="outlined-select-category"
+            name="category"
             select
             label="Select"
-            defaultValue="work"
+            defaultValue="WORK"
             helperText="Please select task category"
             variant="filled"
+            sx={{ marginRight: "10px" }}
           >
             {taskCategories.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField
+            margin="normal"
+            name="status"
+            id="outlined-select-current-status"
+            select
+            label="Select"
+            defaultValue="TO-DO"
+            helperText="Please select task Status"
+            variant="filled"
+          >
+            {taskStatus.map((option) => (
               <MenuItem key={option} value={option}>
                 {option}
               </MenuItem>
@@ -96,5 +119,5 @@ function AddTaskDialog() {
       </Dialog>
     </React.Fragment>
   );
-}
+};
 export default AddTaskDialog;
