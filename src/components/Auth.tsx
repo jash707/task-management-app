@@ -28,7 +28,7 @@ const Auth = () => {
         alignItems: "center",
         justifyContent: "flex-start",
         paddingLeft: "10%",
-        backgroundColor: "#FAF9F6", // Light background similar to design
+        backgroundColor: "#FAF9F6",
       }}
     >
       <Box sx={{ textAlign: "left", maxWidth: 400 }}>

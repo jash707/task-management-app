@@ -4,6 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddTaskDialog from "./NewTaskDialog";
 import { TaskSectionProps } from "@/Utils/tasks.types";
+import { removeData } from "../services/firebaseUtils";
 
 const TaskList: React.FC<TaskSectionProps> = ({
   title,
@@ -28,8 +29,10 @@ const TaskList: React.FC<TaskSectionProps> = ({
     handleMenuClose();
   };
 
-  const handleDelete = () => {
-    // onDelete();
+  const handleDelete = (id: string) => {
+    if (id) {
+      removeData(`tasks/${id}`);
+    }
     handleMenuClose();
   };
 
@@ -140,7 +143,9 @@ const TaskList: React.FC<TaskSectionProps> = ({
                         onClose={handleMenuClose}
                       >
                         <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                        <MenuItem onClick={handleDelete}>Delete</MenuItem>
+                        <MenuItem onClick={() => handleDelete(task.id)}>
+                          Delete
+                        </MenuItem>
                       </Menu>
                     </>
                   </div>

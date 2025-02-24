@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MenuItem } from "@mui/material";
-import { Task } from "@/Utils/tasks.types";
+import { Task } from "../Utils/tasks.types";
 interface AddTaskDialogProps {
   onAddTask: (newTask: Task) => void;
 }

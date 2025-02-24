@@ -1,7 +1,6 @@
-import { ref, set, get, onValue, off } from "firebase/database";
+import { ref, set, get, onValue, off, remove } from "firebase/database";
 import { database } from "./firebaseConfig";
 
-// Store data function
 export const storeData = (path: string, data: unknown) => {
   const dbRef = ref(database, path);
   set(dbRef, data)
@@ -34,4 +33,15 @@ export const listenForTasks = (callback: (data: any) => void) => {
     }
   });
   return () => off(dbRef);
+};
+
+export const removeData = (path: string) => {
+  const dbRef = ref(database, path);
+  return remove(dbRef)
+    .then(() => {
+      console.log("Data removed successfully");
+    })
+    .catch((error) => {
+      console.error("Error removing data:", error);
+    });
 };

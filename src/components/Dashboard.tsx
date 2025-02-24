@@ -3,7 +3,7 @@ import Header from "./shared/Header";
 import ViewToggle from "./ViewToggle";
 import TaskList from "./TaskList";
 import TaskBoard from "./TaskBoard";
-import { Task } from "@/Utils/tasks.types";
+import { Task } from "../Utils/tasks.types";
 import { TaskListHeaders } from "./TaskListHeaders";
 import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import AddTaskDialog from "./NewTaskDialog";

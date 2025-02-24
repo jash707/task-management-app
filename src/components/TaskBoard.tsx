@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import TaskBoardCards from "./TaskBoardCards";
-import { Task } from "@/Utils/tasks.types";
+import { Task } from "../Utils/tasks.types";
 
 interface TaskBoardProps {
   title: string;

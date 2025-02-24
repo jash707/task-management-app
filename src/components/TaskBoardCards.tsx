@@ -10,8 +10,9 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Task } from "@/Utils/tasks.types";
 import { useState } from "react";
+import { removeData } from "../services/firebaseUtils";
 
-const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
+const TaskBoardCards: React.FC<Task> = ({ id, title, dueDate, category }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const open = Boolean(anchorEl);
 
@@ -29,7 +30,9 @@ const TaskBoardCards: React.FC<Task> = ({ title, dueDate, category }) => {
   };
 
   const handleDelete = () => {
-    // onDelete();
+    if (id) {
+      removeData(`tasks/${id}`);
+    }
     handleMenuClose();
   };
   return (
