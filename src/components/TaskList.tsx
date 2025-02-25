@@ -3,7 +3,8 @@ import { Typography, IconButton, Menu, MenuItem } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AddTaskDialog from "./NewTaskDialog";
-import { TaskSectionProps } from "@/Utils/tasks.types";
+import UpdateTaskDialog from "./UpdateTaskDialog";
+import { TaskSectionProps, Task } from "@/Utils/tasks.types";
 import { removeData } from "../services/firebaseUtils";
 
 const TaskList: React.FC<TaskSectionProps> = ({
@@ -14,6 +15,8 @@ const TaskList: React.FC<TaskSectionProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [isEditDialogOpen, setEditDialogOpen] = useState(false);
   const open = Boolean(anchorEl);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,8 +27,9 @@ const TaskList: React.FC<TaskSectionProps> = ({
     setAnchorEl(null);
   };
 
-  const handleEdit = () => {
-    // onEdit();
+  const handleEdit = (task: Task) => {
+    setSelectedTask(task);
+    setEditDialogOpen(true);
     handleMenuClose();
   };
 
@@ -142,7 +146,9 @@ const TaskList: React.FC<TaskSectionProps> = ({
                         open={open}
                         onClose={handleMenuClose}
                       >
-                        <MenuItem onClick={handleEdit}>Edit</MenuItem>
+                        <MenuItem onClick={() => handleEdit(task)}>
+                          Edit
+                        </MenuItem>
                         <MenuItem onClick={() => handleDelete(task.id)}>
                           Delete
                         </MenuItem>
@@ -155,6 +161,11 @@ const TaskList: React.FC<TaskSectionProps> = ({
           </div>
         )}
       </div>
+      <UpdateTaskDialog
+        open={isEditDialogOpen}
+        onClose={() => setEditDialogOpen(false)}
+        taskToEdit={selectedTask}
+      />
     </>
   );
 };

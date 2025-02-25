@@ -45,3 +45,14 @@ export const removeData = (path: string) => {
       console.error("Error removing data:", error);
     });
 };
+
+export const editTask = (taskId: string, updatedTask: unknown) => {
+  const dbRef = ref(database, `tasks/${taskId}`);
+  return set(dbRef, updatedTask)
+    .then(() => {
+      console.log("Task edited successfully using set");
+    })
+    .catch((error) => {
+      console.error("Error editing task:", error);
+    });
+};
