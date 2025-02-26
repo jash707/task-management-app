@@ -8,13 +8,18 @@ import { TaskListHeaders } from "./TaskListHeaders";
 import { FormControl, Select, MenuItem, TextField } from "@mui/material";
 import AddTaskDialog from "./NewTaskDialog";
 import { listenForTasks, storeData } from "../services/firebaseUtils";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
   const [tasks, setTasks] = useState<Task[]>([]);
   const [allTasks, setAllTasks] = useState<Task[]>([]);
   const [searchItem, setSearchItem] = useState<string>("");
-
   const [selectedView, setSelectedView] = useState("list");
+  const [userEmail, setUserEmail] = useState<string>("");
 
   const handleAddTask = (newTask: Task) => {
     storeData(`tasks/${newTask.id}`, newTask);
@@ -35,6 +40,19 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        const uid = user.uid;
+        setUserEmail(user.email ?? "");
+        console.log("uid", uid);
+      } else {
+        navigate("/signin");
+        console.log("user is logged out");
+      }
+    });
+
     const unsubscribe = listenForTasks((data) => {
       if (data) {
         const tasksArray = Object.values(data) as Task[];
@@ -47,7 +65,7 @@ const Dashboard = () => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [navigate]);
 
   return (
     <div
@@ -56,7 +74,7 @@ const Dashboard = () => {
         padding: "10px",
       }}
     >
-      <Header />
+      <Header userEmail={userEmail} />
       <ViewToggle
         selectedView={selectedView}
         onToggleView={(view) => setSelectedView(view)}

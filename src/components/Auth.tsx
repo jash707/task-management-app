@@ -1,25 +1,23 @@
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import GoogleIcon from "@mui/icons-material/Google";
 import { auth } from "../services/firebaseConfig";
 import { Box, Button, Typography } from "@mui/material";
-
-const provider = new GoogleAuthProvider();
-
-const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    console.log("User Info:", result.user);
-  } catch (error) {
-    console.error("Error signing in:", error);
-  }
-};
-
-export const logout = async () => {
-  await signOut(auth);
-  console.log("User signed out");
-};
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+  const provider = new GoogleAuthProvider();
+  const navigate = useNavigate();
+
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      navigate("/dashboard");
+      console.log("User Info:", result.user);
+    } catch (error) {
+      console.error("Error signing in:", error);
+    }
+  };
+
   return (
     <Box
       sx={{

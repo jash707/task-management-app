@@ -1,7 +1,20 @@
+import { auth } from "../../services/firebaseConfig";
 import { Typography, Avatar, Button } from "@mui/material";
-import { logout } from "../Auth";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+interface HeaderProps {
+  userEmail: string;
+}
 
-const Header = () => {
+const Header: React.FC<HeaderProps> = ({ userEmail }) => {
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    await signOut(auth);
+    navigate("/signin");
+    console.log("User signed out");
+  };
+
   return (
     <header
       style={{
@@ -19,7 +32,7 @@ const Header = () => {
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         <Avatar src="/path-to-avatar.jpg" alt="User" />
-        <Typography variant="body2">Aravind</Typography>
+        <Typography variant="body2">{userEmail}</Typography>
         <Button
           variant="outlined"
           color="secondary"
