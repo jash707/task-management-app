@@ -109,8 +109,13 @@ const TaskList: React.FC<TaskSectionProps> = ({
                     backgroundColor: "#fdfdfd",
                   }}
                 >
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input type="checkbox" style={{ marginRight: "10px" }} />
+                  <div
+                    style={{
+                      paddingLeft: "20px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
                     <Typography>{task.title}</Typography>
                   </div>
 

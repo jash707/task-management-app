@@ -11,6 +11,8 @@ import { listenForTasks, storeData } from "../services/firebaseUtils";
 
 const Dashboard = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [allTasks, setAllTasks] = useState<Task[]>([]);
+  const [searchItem, setSearchItem] = useState<string>("");
 
   const [selectedView, setSelectedView] = useState("list");
 
@@ -18,12 +20,28 @@ const Dashboard = () => {
     storeData(`tasks/${newTask.id}`, newTask);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm);
+
+    if (searchTerm.trim() === "") {
+      setTasks(allTasks);
+    } else {
+      const filteredTasks = allTasks.filter((task) =>
+        task.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setTasks(filteredTasks);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = listenForTasks((data) => {
       if (data) {
-        const tasksArray = Object.values(data);
-        setTasks(tasksArray as Task[]);
+        const tasksArray = Object.values(data) as Task[];
+        setAllTasks(tasksArray);
+        setTasks(tasksArray);
       } else {
+        setAllTasks([]);
         setTasks([]);
       }
     });
@@ -85,7 +103,9 @@ const Dashboard = () => {
             <TextField
               variant="outlined"
               size="small"
-              placeholder="Search"
+              placeholder="Type to search"
+              value={searchItem}
+              onChange={handleInputChange}
               InputProps={{
                 startAdornment: (
                   <span
@@ -98,7 +118,7 @@ const Dashboard = () => {
                 ),
               }}
               style={{
-                width: "150px",
+                width: "200px",
               }}
             />
           </div>
